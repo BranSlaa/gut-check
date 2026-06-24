@@ -1,26 +1,264 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ */
+/*  Gut Check — neon retro / cyberpunk dashboard design system          */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --color-bg: #05060a;
+  --color-bg-soft: #0a0c14;
+  --color-panel: #0c0f1a;
+  --color-panel-edge: #161a2b;
+
+  --color-neon-pink: #ff2d95;
+  --color-neon-pink-soft: #ff7ac0;
+  --color-neon-green: #39ff14;
+  --color-neon-green-soft: #8dff7a;
+
+  --color-allowed: #39ff14;
+  --color-moderation: #ffc400;
+  --color-avoid: #ff3b5c;
+
+  --color-ink: #e7ebff;
+  --color-ink-dim: #8a93b8;
+  --color-ink-faint: #525a7a;
+
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* Subtle cyberpunk grid + radial neon wash behind everything. */
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 15% -10%,
+      rgba(255, 45, 149, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 95% 0%,
+      rgba(57, 255, 20, 0.1),
+      transparent 55%
+    ),
+    linear-gradient(rgba(120, 134, 199, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 134, 199, 0.05) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    100% 100%,
+    44px 44px,
+    44px 44px;
+  background-attachment: fixed;
+}
+
+/* ---- Reusable neon utility classes (used across components) -------- */
+
+@layer components {
+  /* Glassy database-style panel with a faint glow edge. */
+  .neon-panel {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(18, 22, 38, 0.85),
+        rgba(8, 10, 18, 0.85)
+      );
+    border: 1px solid rgba(120, 134, 199, 0.16);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(8px);
+    box-shadow:
+      0 0 0 1px rgba(120, 134, 199, 0.04),
+      0 8px 40px -12px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Pink-flavoured variant for the selected / primary surfaces. */
+  .neon-panel-pink {
+    border-color: rgba(255, 45, 149, 0.4);
+    box-shadow:
+      0 0 24px -6px rgba(255, 45, 149, 0.35),
+      inset 0 0 30px -22px rgba(255, 45, 149, 0.6);
+  }
+
+  .neon-panel-green {
+    border-color: rgba(57, 255, 20, 0.35);
+    box-shadow:
+      0 0 24px -6px rgba(57, 255, 20, 0.3),
+      inset 0 0 30px -22px rgba(57, 255, 20, 0.5);
+  }
+
+  /* Text glow helpers. */
+  .glow-pink {
+    color: var(--color-neon-pink);
+    text-shadow: 0 0 12px rgba(255, 45, 149, 0.7);
+  }
+  .glow-green {
+    color: var(--color-neon-green);
+    text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
+  }
+
+  /* Thin neon divider line. */
+  .neon-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(120, 134, 199, 0.4),
+      transparent
+    );
+  }
+
+  /* Uppercase mono "terminal" label used for section/column headers. */
+  .term-label {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.6875rem;
+  }
+}
+
+/* ---- Custom range slider styling ---------------------------------- */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(120, 134, 199, 0.25);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: var(--color-neon-pink);
+  border: 2px solid #05060a;
+  box-shadow: 0 0 10px rgba(255, 45, 149, 0.9);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  border-radius: 9999px;
+  background: var(--color-neon-pink);
+  border: 2px solid #05060a;
+  box-shadow: 0 0 10px rgba(255, 45, 149, 0.9);
+  cursor: pointer;
+}
+
+/* ---- Dual-handle range slider (min + max) ------------------------- */
+
+/* Shared rail + neon fill sit behind two transparent, overlapping inputs. */
+.dual-range-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(120, 134, 199, 0.25);
+}
+
+.dual-range-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    var(--color-neon-green),
+    var(--color-neon-pink)
+  );
+  box-shadow: 0 0 10px -2px rgba(255, 45, 149, 0.8);
+}
+
+/* The inputs themselves are invisible tracks; clicks pass through to the
+   thumbs (pointer-events re-enabled per thumb) so both handles stay usable
+   even when overlapping. */
+input[type="range"].dual-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"].dual-range::-webkit-slider-thumb {
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  border: 2px solid #05060a;
+  cursor: pointer;
+}
+input[type="range"].dual-range::-moz-range-track {
+  background: transparent;
+}
+input[type="range"].dual-range::-moz-range-thumb {
+  pointer-events: auto;
+  height: 12px;
+  width: 12px;
+  border-radius: 9999px;
+  border: 2px solid #05060a;
+  cursor: pointer;
+}
+
+.dual-range--min::-webkit-slider-thumb {
+  background: var(--color-neon-green);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.9);
+}
+.dual-range--min::-moz-range-thumb {
+  background: var(--color-neon-green);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.9);
+}
+.dual-range--max::-webkit-slider-thumb {
+  background: var(--color-neon-pink);
+  box-shadow: 0 0 10px rgba(255, 45, 149, 0.9);
+}
+.dual-range--max::-moz-range-thumb {
+  background: var(--color-neon-pink);
+  box-shadow: 0 0 10px rgba(255, 45, 149, 0.9);
+}
+
+/* ---- Scrollbars ---------------------------------------------------- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 45, 149, 0.4) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 45, 149, 0.35);
+  border-radius: 9999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 45, 149, 0.6);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
 }
