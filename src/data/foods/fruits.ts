@@ -70,7 +70,7 @@ export const FRUITS: Food[] = [
 	},
 	{
 		id: "cantaloupe",
-		name: "Cantaloupe (Rockmelon)",
+		name: "Cantaloupe (Honeydew)",
 		category: "fruits",
 		calories: 34,
 		protein: 0.8,
@@ -628,7 +628,14 @@ export const FRUITS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
-		tags: ["excess-fructose", "polyols", "antioxidant", "raw-friendly", "cherry", "gout-friendly"],
+		tags: [
+			"excess-fructose",
+			"polyols",
+			"antioxidant",
+			"raw-friendly",
+			"cherry",
+			"gout-friendly",
+		],
 	},
 	{
 		id: "lychee",
