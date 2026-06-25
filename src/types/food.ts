@@ -2,26 +2,27 @@ export type CompatibilityStatus = "allowed" | "moderation" | "avoid";
 
 /** Named dietary pattern lenses (FODMAP, keto, etc.). */
 export const DIET_LENS_KEYS = [
-  "fodmap",
-  "ibs",
-  "mediterranean",
-  "portfolio",
-  "keto",
-  "ayurvedic",
-  "gutHealthy",
-  "gerdFriendly",
+	"fodmap",
+	"ibs",
+	"mediterranean",
+	"portfolio",
+	"keto",
+	"ayurvedic",
+	"gutHealthy",
+	"gerdFriendly",
+	"gout",
 ] as const;
 
 /** Health-outcome lenses inferred from tags & macros when not explicitly set. */
 export const HEALTH_BENEFIT_KEYS = [
-  "immune",
-  "energy",
-  "antiInflammatory",
-  "brainHealth",
-  "heartHealth",
-  "cholesterol",
-  "digestion",
-  "satiety",
+	"immune",
+	"energy",
+	"antiInflammatory",
+	"brainHealth",
+	"heartHealth",
+	"cholesterol",
+	"digestion",
+	"satiety",
 ] as const;
 
 /**
@@ -29,8 +30,8 @@ export const HEALTH_BENEFIT_KEYS = [
  * benefits. UI tables iterate these in a stable order.
  */
 export const COMPATIBILITY_KEYS = [
-  ...DIET_LENS_KEYS,
-  ...HEALTH_BENEFIT_KEYS,
+	...DIET_LENS_KEYS,
+	...HEALTH_BENEFIT_KEYS,
 ] as const;
 
 export type DietLensKey = (typeof DIET_LENS_KEYS)[number];
@@ -38,7 +39,7 @@ export type HealthBenefitKey = (typeof HEALTH_BENEFIT_KEYS)[number];
 export type CompatibilityKey = (typeof COMPATIBILITY_KEYS)[number];
 
 export type Compatibility = Partial<
-  Record<CompatibilityKey, CompatibilityStatus | null>
+	Record<CompatibilityKey, CompatibilityStatus | null>
 >;
 
 /**
@@ -51,25 +52,21 @@ export type Compatibility = Partial<
  * inferred at read time from tags & macros unless overridden on the food.
  */
 export type Food = {
-  id: string;
-  name: string;
-  category?: string | null;
+	id: string;
+	name: string;
+	category?: string | null;
 
-  calories?: number | null;
-  protein?: number | null;
-  carbs?: number | null;
-  fat?: number | null;
-  fiber?: number | null;
+	calories?: number | null;
+	protein?: number | null;
+	carbs?: number | null;
+	fat?: number | null;
+	fiber?: number | null;
 
-  compatibility?: Compatibility | null;
+	compatibility?: Compatibility | null;
 
-  tags?: string[] | null;
+	tags?: string[] | null;
 };
 
 export type NutritionKey = "calories" | "protein" | "carbs" | "fat" | "fiber";
 
-export type SortKey =
-  | "mostCompatible"
-  | "protein"
-  | "fiber"
-  | "lowestCarbs";
+export type SortKey = "mostCompatible" | "protein" | "fiber" | "lowestCarbs";
