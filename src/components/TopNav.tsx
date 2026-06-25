@@ -19,7 +19,11 @@ type Props = {
 /**
  * Top navigation bar. Each item switches the active view rendered by the shell.
  */
-export default function TopNav({ active, onNavigate, shoppingCount = 0 }: Props) {
+export default function TopNav({
+	active,
+	onNavigate,
+	shoppingCount = 0,
+}: Props) {
 	return (
 		<header className="sticky top-0 z-40 border-b border-panel-edge bg-bg/85 backdrop-blur-md">
 			<div className="flex items-center gap-6 px-4 py-3 md:px-6">
@@ -71,21 +75,6 @@ export default function TopNav({ active, onNavigate, shoppingCount = 0 }: Props)
 						);
 					})}
 				</nav>
-
-				{/* Right side status */}
-				<div className="ml-auto flex items-center gap-3">
-					<span className="hidden items-center gap-2 lg:flex">
-						<span className="h-2 w-2 animate-pulse rounded-full bg-neon-green shadow-[0_0_8px_var(--color-neon-green)]" />
-						<span className="term-label text-ink-dim">online</span>
-					</span>
-					<button
-						type="button"
-						aria-label="Settings"
-						className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-panel-edge text-ink-dim transition-colors hover:border-neon-green/50 hover:text-neon-green"
-					>
-						⚙
-					</button>
-				</div>
 			</div>
 
 			{/* Mobile nav: compact pill row so views are reachable on phones. */}

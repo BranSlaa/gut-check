@@ -1,5 +1,6 @@
 "use client";
 
+import Tooltip from "@/components/Tooltip";
 import { DIET_LENSES, HEALTH_BENEFIT_LENSES } from "@/data/diets";
 import type { CompatibilityKey } from "@/types/food";
 
@@ -22,27 +23,29 @@ function ChipRow({
 			{lenses.map((lens) => {
 				const isActive = active.has(lens.key);
 				return (
-					<button
-						key={lens.key}
-						type="button"
-						onClick={() => onToggle(lens.key)}
-						aria-pressed={isActive}
-						style={
-							{
-								"--chip": `rgb(${lens.accent})`,
-								"--chip-a": `rgba(${lens.accent} / 0.16)`,
-								"--chip-b": `rgba(${lens.accent} / 0.5)`,
-							} as React.CSSProperties
-						}
-						className={[
-							"term-label rounded-full border px-3 py-1.5 transition-all duration-150",
-							isActive
-								? "border-chip bg-chip-a text-chip shadow-[0_0_16px_-4px_var(--chip)]"
-								: "border-panel-edge text-ink-dim hover:border-chip-b hover:text-chip",
-						].join(" ")}
-					>
-						{lens.label}
-					</button>
+					<Tooltip key={lens.key} content={lens.description}>
+						<button
+							type="button"
+							onClick={() => onToggle(lens.key)}
+							aria-pressed={isActive}
+							aria-label={`${lens.label}: ${lens.description}`}
+							style={
+								{
+									"--chip": `rgb(${lens.accent})`,
+									"--chip-a": `rgba(${lens.accent} / 0.16)`,
+									"--chip-b": `rgba(${lens.accent} / 0.5)`,
+								} as React.CSSProperties
+							}
+							className={[
+								"term-label rounded-full border px-3 py-1.5 transition-all duration-150",
+								isActive
+									? "border-chip bg-chip-a text-chip shadow-[0_0_16px_-4px_var(--chip)]"
+									: "border-panel-edge text-ink-dim hover:border-chip-b hover:text-chip",
+							].join(" ")}
+						>
+							{lens.label}
+						</button>
+					</Tooltip>
 				);
 			})}
 		</div>

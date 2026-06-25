@@ -3,8 +3,13 @@
 import { useState } from "react";
 
 import CompatibilityIcon from "@/components/CompatibilityIcon";
+import Tooltip from "@/components/Tooltip";
 import type { FoodCategory } from "@/data/categories";
-import { TABLE_DIET_COLUMNS, TABLE_HEALTH_COLUMNS } from "@/data/diets";
+import {
+	LENS_BY_KEY,
+	TABLE_DIET_COLUMNS,
+	TABLE_HEALTH_COLUMNS,
+} from "@/data/diets";
 import { fmtNum, getCompatibility } from "@/lib/food";
 import type { Food } from "@/types/food";
 
@@ -147,6 +152,7 @@ export default function FoodCategoryTable({
 									key={col.key}
 									className={`text-center ${colHighlight(col.key)}`}
 									onMouseEnter={() => setHoveredCol(col.key)}
+									tooltip={LENS_BY_KEY[col.key].description}
 								>
 									{col.label}
 								</Th>
@@ -163,6 +169,7 @@ export default function FoodCategoryTable({
 									key={col.key}
 									className={`text-center text-[#9ad4ff] ${colHighlight(col.key)}`}
 									onMouseEnter={() => setHoveredCol(col.key)}
+									tooltip={LENS_BY_KEY[col.key].description}
 								>
 									{col.label}
 								</Th>
@@ -308,18 +315,30 @@ export default function FoodCategoryTable({
 function Th({
 	children,
 	className = "",
+	tooltip,
 	onMouseEnter,
 }: {
 	children?: React.ReactNode;
 	className?: string;
+	tooltip?: string;
 	onMouseEnter?: () => void;
 }) {
+	const label = tooltip ? (
+		<Tooltip content={tooltip} placement="bottom">
+			<span className="cursor-help border-b border-dotted border-ink-faint/40">
+				{children}
+			</span>
+		</Tooltip>
+	) : (
+		children
+	);
+
 	return (
 		<th
 			className={`term-label whitespace-nowrap px-2 py-2.5 font-medium text-ink-faint transition-colors ${className}`}
 			onMouseEnter={onMouseEnter}
 		>
-			{children}
+			{label}
 		</th>
 	);
 }
