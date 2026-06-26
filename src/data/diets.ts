@@ -75,6 +75,14 @@ export const DIET_LENSES: Lens[] = [
 		group: "diet",
 	},
 	{
+		key: "lactoseFree",
+		label: "Lactose Free",
+		description:
+			"Low-lactose and dairy-free choices — limits milk, soft cheeses, and ice cream; aged cheese and ghee in moderation.",
+		accent: "200 220 255",
+		group: "diet",
+	},
+	{
 		key: "gutHealthy",
 		label: "Gut Healthy",
 		description:
@@ -186,6 +194,7 @@ export const TABLE_DIET_COLUMNS: { key: DietLensKey; label: string }[] = [
 	{ key: "mediterranean", label: "Mediterranean" },
 	{ key: "portfolio", label: "Portfolio" },
 	{ key: "dash", label: "DASH" },
+	{ key: "lactoseFree", label: "Lactose" },
 	{ key: "keto", label: "Keto" },
 	{ key: "gutHealthy", label: "Gut" },
 	{ key: "gout", label: "Gout" },

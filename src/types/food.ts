@@ -9,6 +9,7 @@ export const DIET_LENS_KEYS = [
 	"dash",
 	"keto",
 	"ayurvedic",
+	"lactoseFree",
 	"gutHealthy",
 	"gerdFriendly",
 	"gout",

@@ -70,6 +70,16 @@ function dashPenalty(c: FoodContext): number {
 	return s;
 }
 
+/** Lactose / dairy signals from food tags and explicit diet ratings. */
+function lactoseFreePenalty(c: FoodContext): number {
+	let s = 0;
+	if (has(c, "lactose-free") || has(c, "dairy-free")) s += 2;
+	if (has(c, "lactose")) s -= 3;
+	if (c.compat?.lactoseFree === "avoid") s -= 2;
+	if (c.compat?.lactoseFree === "allowed") s += 1;
+	return s;
+}
+
 function inferImmune(c: FoodContext): CompatibilityStatus {
 	let s = 0;
 	if (has(c, "antioxidant")) s += 2;
@@ -190,6 +200,7 @@ function inferDigestion(c: FoodContext): CompatibilityStatus {
 	if (has(c, "polyols")) s -= 2;
 	if (c.fat >= 40) s -= 1;
 	if (has(c, "alcohol")) s -= 2;
+	s += lactoseFreePenalty(c);
 	return scoreToStatus(s);
 }
 
