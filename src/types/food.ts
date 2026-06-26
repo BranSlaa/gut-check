@@ -6,6 +6,7 @@ export const DIET_LENS_KEYS = [
 	"ibs",
 	"mediterranean",
 	"portfolio",
+	"dash",
 	"keto",
 	"ayurvedic",
 	"gutHealthy",

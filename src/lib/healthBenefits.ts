@@ -58,6 +58,18 @@ function goutPenalty(c: FoodContext): number {
 	return s;
 }
 
+/** Sodium / DASH signals from food tags and explicit diet ratings. */
+function dashPenalty(c: FoodContext): number {
+	let s = 0;
+	if (has(c, "high-sodium")) s -= 3;
+	if (has(c, "potassium")) s += 2;
+	if (has(c, "low-fat-dairy")) s += 1;
+	if (has(c, "whole-grain") || has(c, "high-fiber")) s += 1;
+	if (c.compat?.dash === "avoid") s -= 2;
+	if (c.compat?.dash === "allowed") s += 1;
+	return s;
+}
+
 function inferImmune(c: FoodContext): CompatibilityStatus {
 	let s = 0;
 	if (has(c, "antioxidant")) s += 2;
@@ -143,6 +155,7 @@ function inferHeartHealth(c: FoodContext): CompatibilityStatus {
 	if (has(c, "added-sugar")) s -= 1;
 	if (has(c, "alcohol")) s -= 1;
 	s += goutPenalty(c);
+	s += dashPenalty(c);
 	return scoreToStatus(s);
 }
 

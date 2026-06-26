@@ -51,6 +51,14 @@ export const DIET_LENSES: Lens[] = [
 		group: "diet",
 	},
 	{
+		key: "dash",
+		label: "DASH",
+		description:
+			"Blood-pressure-friendly eating — fruits, vegetables, whole grains, lean protein, and low-fat dairy; limited sodium, red meat, and sweets.",
+		accent: "72 200 255",
+		group: "diet",
+	},
+	{
 		key: "keto",
 		label: "Keto",
 		description:
@@ -177,6 +185,7 @@ export const TABLE_DIET_COLUMNS: { key: DietLensKey; label: string }[] = [
 	{ key: "ibs", label: "IBS" },
 	{ key: "mediterranean", label: "Mediterranean" },
 	{ key: "portfolio", label: "Portfolio" },
+	{ key: "dash", label: "DASH" },
 	{ key: "keto", label: "Keto" },
 	{ key: "gutHealthy", label: "Gut" },
 	{ key: "gout", label: "Gout" },
