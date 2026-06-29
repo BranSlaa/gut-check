@@ -1,5 +1,7 @@
 "use client";
 
+import { useLayoutEffect, useRef } from "react";
+
 export type AppView = "explore" | "mealPlan" | "shopping";
 
 const NAV_ITEMS: { view: AppView; label: string }[] = [
@@ -24,8 +26,30 @@ export default function TopNav({
 	onNavigate,
 	shoppingCount = 0,
 }: Props) {
+	const headerRef = useRef<HTMLElement>(null);
+
+	useLayoutEffect(() => {
+		const el = headerRef.current;
+		if (!el) return;
+
+		const syncHeight = () => {
+			document.documentElement.style.setProperty(
+				"--site-header-height",
+				`${el.offsetHeight}px`,
+			);
+		};
+
+		syncHeight();
+		const observer = new ResizeObserver(syncHeight);
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, []);
+
 	return (
-		<header className="sticky top-0 z-40 border-b border-panel-edge bg-bg/85 backdrop-blur-md">
+		<header
+			ref={headerRef}
+			className="sticky top-0 z-40 border-b border-panel-edge bg-bg/85 backdrop-blur-md"
+		>
 			<div className="flex items-center gap-6 px-4 py-3 md:px-6">
 				{/* Logo */}
 				<button

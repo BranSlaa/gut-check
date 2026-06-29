@@ -7,7 +7,7 @@ import type { Food } from "@/types/food";
 export const DRINKS: Food[] = [
 	// ----- Milks -----
 	{
-		id: "cows-milk",
+		id: "milk-cows-whole",
 		name: "Milk (Cow's, whole)",
 		category: "drinks",
 		calories: 61,
@@ -28,6 +28,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["lactose", "high-protein"],
 	},
 	{
@@ -52,6 +53,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["lactose", "high-protein"],
 	},
 	{
@@ -76,6 +78,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["high-protein", "low-carb", "low-fat-dairy", "lactose-free"],
 	},
 	{
@@ -100,6 +103,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["dairy-free", "low-carb"],
 	},
 	{
@@ -124,6 +128,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["dairy-free", "prebiotic"],
 	},
 	{
@@ -148,6 +153,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
+		doshas: ["vata"],
 		tags: ["dairy-free", "gluten-free"],
 	},
 	{
@@ -172,6 +178,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["dairy-free", "plant-protein"],
 	},
 	// ----- Juices -----
@@ -197,6 +204,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["excess-fructose", "fruit-juice"],
 	},
 	{
@@ -221,6 +229,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["fruit-juice", "vitamin-c"],
 	},
 	{
@@ -245,6 +254,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["fruit-juice", "added-sugar"],
 	},
 	{
@@ -269,6 +279,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["fruit-juice", "added-sugar"],
 	},
 	{
@@ -293,6 +304,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["vegetable-juice", "vitamin-c", "low-carb"],
 	},
 	{
@@ -317,6 +329,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["hydrating", "electrolytes", "low-carb"],
 	},
 	// ----- Coffee & tea -----
@@ -390,6 +403,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["pitta", "kapha"],
 		tags: ["caffeine", "antioxidant", "low-carb"],
 	},
 	{
@@ -438,6 +452,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "allowed",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["digestive", "caffeine-free", "low-carb"],
 	},
 	{
@@ -462,6 +477,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "allowed",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["digestive", "caffeine-free", "low-carb"],
 	},
 	{
@@ -511,6 +527,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "avoid",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["alcohol", "fermented", "high-purine"],
 	},
 	{
@@ -535,6 +552,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["kapha"],
 		tags: ["alcohol", "antioxidant"],
 	},
 	{
@@ -559,6 +577,7 @@ export const DRINKS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta", "kapha"],
 		tags: ["alcohol"],
 	},
 	{
@@ -609,4 +628,80 @@ export const DRINKS: Food[] = [
 		},
 		tags: ["alcohol", "low-carb"],
 	},
+	{
+			id: "goats-milk",
+			name: "Goat's Milk",
+			category: "drinks",
+			calories: 69,
+			protein: 3.6,
+			carbs: 4.5,
+			fat: 4.1,
+			fiber: 0,
+			compatibility: {
+				fodmap: "avoid",
+				ibs: "avoid",
+				mediterranean: "allowed",
+				portfolio: "avoid",
+				dash: "moderation",
+				keto: "moderation",
+				ayurvedic: "allowed",
+				lactoseFree: "avoid",
+				gutHealthy: "moderation",
+				gerdFriendly: "moderation",
+				gout: "moderation",
+			},
+			doshas: ["vata", "pitta", "kapha"],
+			tags: ["lactose", "high-protein"],
+		}
+,
+	{
+		id: "soy-milk-plain",
+		name: "Soy Milk",
+		category: "drinks",
+		calories: 54,
+		protein: 3.3,
+		carbs: 6.3,
+		fat: 1.8,
+		fiber: 0.6,
+		compatibility: {
+			fodmap: "moderation",
+			ibs: "moderation",
+			mediterranean: "allowed",
+			portfolio: "allowed",
+			dash: "allowed",
+			keto: "moderation",
+			ayurvedic: "moderation",
+			lactoseFree: "moderation",
+			gutHealthy: "allowed",
+			gerdFriendly: "moderation",
+			gout: "allowed",
+		},
+		doshas: ["vata", "pitta", "kapha"],
+		tags: ["plant-protein", "soy"],
+	},
+	{
+		id: "cows-milk",
+		name: "Cow's Milk",
+		category: "drinks",
+		calories: 61,
+		protein: 3.2,
+		carbs: 4.8,
+		fat: 3.3,
+		fiber: 0,
+		compatibility: {
+			fodmap: "moderation",
+			ibs: "moderation",
+			mediterranean: "allowed",
+			portfolio: "avoid",
+			dash: "allowed",
+			keto: "moderation",
+			ayurvedic: "allowed",
+			lactoseFree: "moderation",
+			gutHealthy: "allowed",
+			gerdFriendly: "moderation",
+			gout: "allowed",
+		},
+		doshas: ["vata", "pitta", "kapha"],
+		tags: ["calcium", "lactose"],
+	}
 ];

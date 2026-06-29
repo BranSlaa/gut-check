@@ -1,14 +1,16 @@
 "use client";
 
-import CompatibilityIcon from "@/components/CompatibilityIcon";
+import DoshaIcon from "@/components/DoshaIcon";
+import ExplorerDietCell from "@/components/ExplorerDietCell";
 import StatPill from "@/components/StatPill";
-import { DIETS } from "@/data/diets";
+import Tooltip from "@/components/Tooltip";
+import { DOSHA_META } from "@/data/ayurveda/doshas";
+import { ALL_LENSES_MATRIX_COLUMNS, LENS_BY_KEY } from "@/data/diets";
 import {
 	computeDietBreakdowns,
 	computeTotals,
 	countAllowed,
 	fmtNum,
-	getCompatibility,
 	type DietBreakdown,
 } from "@/lib/food";
 import type { Food } from "@/types/food";
@@ -70,7 +72,7 @@ export default function MealPlanDashboard({
 	const allOnList = alreadyOnListCount >= foods.length;
 
 	return (
-		<main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-6 md:px-6">
+		<main className="mx-auto flex w-full max-w-[90rem] flex-col gap-6 px-4 py-6 md:px-6">
 			{/* Header */}
 			<div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 				<div>
@@ -172,32 +174,75 @@ export default function MealPlanDashboard({
 				</div>
 			</section>
 
-			{/* Compatibility matrix */}
-			<section className="neon-panel overflow-hidden">
-				<div className="flex items-center justify-between border-b border-panel-edge px-4 py-3">
+			<section className="neon-panel min-w-0">
+				<div className="flex-col md:flex-row flex items-center justify-between border-b border-panel-edge px-4 py-3">
 					<h2 className="term-label text-neon-pink">
 						Food Compatibility
 					</h2>
-					<span className="font-mono text-[11px] text-ink-faint">
-						✓ allowed · ▲ moderation · ✕ avoid · ? unknown
+					<span className="font-mono text-[11px] text-ink-faint text-center md:text-left">
+						✓ allowed · ▲ moderation · ✕ avoid · ?&nbsp;unknown
 					</span>
 				</div>
-				<div className="overflow-x-auto">
-					<table className="w-full min-w-[640px] text-sm">
+				<div
+					className="overflow-auto"
+					style={{
+						maxHeight:
+							"calc(100svh - var(--site-header-height, 3.5rem) - 10rem)",
+					}}
+				>
+					<table className="w-max min-w-full border-separate border-spacing-0 text-sm">
 						<thead>
-							<tr className="bg-white/2">
-								<th className="term-label px-4 py-2.5 text-left text-ink-faint">
+							<tr className="border-b border-panel-edge">
+								<MatrixTh className="min-w-[148px] px-4 text-left">
 									Food
-								</th>
-								{DIETS.map((diet) => (
-									<th
-										key={diet.key}
-										className="term-label px-2 py-2.5 text-center text-ink-faint"
-										style={{ color: `rgb(${diet.accent})` }}
-									>
-										{diet.label}
-									</th>
-								))}
+								</MatrixTh>
+								{ALL_LENSES_MATRIX_COLUMNS.map((col) => {
+									const colKey =
+										col.type === "dosha"
+											? `dosha-${col.key}`
+											: col.key;
+									const accent =
+										col.type === "lens"
+											? LENS_BY_KEY[col.key].accent
+											: undefined;
+									const tooltip =
+										col.type === "lens"
+											? LENS_BY_KEY[col.key].description
+											: DOSHA_META[col.key].tooltip;
+
+									return (
+										<MatrixTh
+											key={colKey}
+											className={
+												col.type === "dosha"
+													? "w-11 px-1"
+													: "whitespace-nowrap px-2"
+											}
+											tooltip={tooltip}
+											style={
+												accent
+													? {
+															color: `rgb(${accent})`,
+														}
+													: undefined
+											}
+										>
+											{col.type === "dosha" ? (
+												<span className="inline-flex flex-col items-center gap-0.5">
+													<DoshaIcon
+														dosha={col.key}
+														size="sm"
+													/>
+													<span className="text-[9px] normal-case tracking-normal">
+														{col.label}
+													</span>
+												</span>
+											) : (
+												col.label
+											)}
+										</MatrixTh>
+									);
+								})}
 							</tr>
 						</thead>
 						<tbody>
@@ -206,29 +251,37 @@ export default function MealPlanDashboard({
 									key={food.id}
 									className="border-t border-panel-edge/60 transition-colors hover:bg-white/2"
 								>
-									<td className="px-4 py-2.5">
+									<td className="min-w-[148px] px-4 py-2.5">
 										<p className="text-ink">{food.name}</p>
 										<p className="font-mono text-[11px] text-ink-faint">
 											{countAllowed(food)} allowed ·{" "}
 											{fmtNum(food.calories, 0)} kcal
 										</p>
 									</td>
-									{DIETS.map((diet) => (
-										<td
-											key={diet.key}
-											className="px-2 py-2.5 text-center"
-										>
-											<span className="inline-flex justify-center">
-												<CompatibilityIcon
-													status={getCompatibility(
-														food,
-														diet.key,
-													)}
-													size="sm"
-												/>
-											</span>
-										</td>
-									))}
+									{ALL_LENSES_MATRIX_COLUMNS.map((col) => {
+										const colKey =
+											col.type === "dosha"
+												? `dosha-${col.key}`
+												: col.key;
+										return (
+											<td
+												key={colKey}
+												className={`py-2.5 text-center ${
+													col.type === "dosha"
+														? "w-11 px-1"
+														: "whitespace-nowrap px-2"
+												}`}
+											>
+												<span className="inline-flex justify-center">
+													<ExplorerDietCell
+														column={col}
+														food={food}
+														size="sm"
+													/>
+												</span>
+											</td>
+										);
+									})}
 								</tr>
 							))}
 						</tbody>
@@ -257,6 +310,37 @@ export default function MealPlanDashboard({
 				</button>
 			</section>
 		</main>
+	);
+}
+
+function MatrixTh({
+	children,
+	className = "",
+	tooltip,
+	style,
+}: {
+	children: React.ReactNode;
+	className?: string;
+	tooltip?: string;
+	style?: React.CSSProperties;
+}) {
+	const label = tooltip ? (
+		<Tooltip content={tooltip} placement="bottom">
+			<span className="cursor-help border-b border-dotted border-ink-faint/40">
+				{children}
+			</span>
+		</Tooltip>
+	) : (
+		children
+	);
+
+	return (
+		<th
+			className={`sticky top-0 z-30 border-b border-panel-edge bg-[#101424]/98 px-2 py-2.5 text-center font-medium text-ink-faint shadow-[0_4px_12px_-4px_rgba(0,0,0,0.6)] backdrop-blur-md term-label ${className}`}
+			style={style}
+		>
+			{label}
+		</th>
 	);
 }
 
@@ -316,7 +400,9 @@ function DietBreakdownRow({ diet }: { diet: DietBreakdown }) {
 		<div className="flex items-center gap-3">
 			<span
 				className="w-24 shrink-0 truncate font-mono text-xs font-medium text-ink-dim"
-				style={{ color: `color-mix(in srgb, ${color} 55%, var(--color-ink-dim))` }}
+				style={{
+					color: `color-mix(in srgb, ${color} 55%, var(--color-ink-dim))`,
+				}}
 				title={diet.label}
 			>
 				{diet.label}
@@ -325,28 +411,28 @@ function DietBreakdownRow({ diet }: { diet: DietBreakdown }) {
 				className="flex h-4 flex-1 gap-px overflow-hidden rounded-md bg-white/3 ring-1 ring-inset ring-white/4"
 				title={`${diet.label}: ${summary}`}
 			>
-				{diet.total === 0 ? null : (
-					segments.map((seg) => {
-						const count = diet[seg.key];
-						return (
-							<div
-								key={seg.key}
-								className="flex min-w-[1.1rem] items-center justify-center"
-								style={{
-									flexGrow: count,
-									background: seg.fill,
-								}}
-							>
-								<span
-									className="font-mono text-[10px] font-medium tabular-nums leading-none"
-									style={{ color: seg.text }}
+				{diet.total === 0
+					? null
+					: segments.map((seg) => {
+							const count = diet[seg.key];
+							return (
+								<div
+									key={seg.key}
+									className="flex min-w-[1.1rem] items-center justify-center"
+									style={{
+										flexGrow: count,
+										background: seg.fill,
+									}}
 								>
-									{count}
-								</span>
-							</div>
-						);
-					})
-				)}
+									<span
+										className="font-mono text-[10px] font-medium tabular-nums leading-none"
+										style={{ color: seg.text }}
+									>
+										{count}
+									</span>
+								</div>
+							);
+						})}
 			</div>
 		</div>
 	);

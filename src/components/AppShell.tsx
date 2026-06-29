@@ -297,6 +297,10 @@ export default function AppShell() {
 					onToggleCategory={(id) =>
 						setCategories((s) => toggleIn(s, id))
 					}
+					healthBenefits={diets}
+					onToggleHealthBenefit={(key) =>
+						setDiets((s) => toggleIn(s, key))
+					}
 					properties={properties}
 					onToggleProperty={(id) =>
 						setProperties((s) => toggleIn(s, id))

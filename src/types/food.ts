@@ -1,3 +1,5 @@
+import type { Dosha } from "@/types/ayurveda";
+
 export type CompatibilityStatus = "allowed" | "moderation" | "avoid";
 
 /** Named dietary pattern lenses (FODMAP, keto, etc.). */
@@ -65,6 +67,9 @@ export type Food = {
 	fiber?: number | null;
 
 	compatibility?: Compatibility | null;
+
+	/** Dosha(s) this food pacifies (Vata, Pitta, Kapha). */
+	doshas?: Dosha[] | null;
 
 	tags?: string[] | null;
 };

@@ -29,6 +29,7 @@
 
 :root {
   color-scheme: dark;
+  --site-header-height: 3.5rem;
 }
 
 html,

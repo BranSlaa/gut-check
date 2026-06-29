@@ -25,6 +25,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["fermented", "low-carb", "gluten-free", "high-sodium"],
 	},
 	{
@@ -49,6 +50,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["low-carb"],
 	},
 	{
@@ -73,6 +75,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["low-carb"],
 	},
 	{
@@ -97,6 +100,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["added-sugar", "high-sodium"],
 	},
 	{
@@ -121,6 +125,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["low-carb", "fermented", "gluten-free"],
 	},
 	// ----- East & Southeast Asian -----
@@ -242,6 +247,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["kapha"],
 		tags: ["added-sugar", "fermented", "high-sodium"],
 	},
 	{
@@ -290,6 +296,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["kapha"],
 		tags: ["added-sugar", "fermented", "high-sodium"],
 	},
 	{
@@ -314,6 +321,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["fermented", "probiotic", "plant-protein", "high-sodium"],
 	},
 	{
@@ -411,6 +419,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "allowed",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["probiotic"],
 	},
 	// ----- Mexican & Latin American -----
@@ -460,6 +469,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["monounsaturated", "high-fiber"],
 	},
 	{
@@ -509,6 +519,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["pitta", "kapha"],
 		tags: ["plant-protein", "high-fiber"],
 	},
 	{
@@ -533,6 +544,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["plant-protein", "high-fiber", "monounsaturated"],
 	},
 	{
@@ -581,6 +593,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata", "pitta"],
 		tags: ["probiotic", "low-carb"],
 	},
 	{
@@ -605,6 +618,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["kapha"],
 		tags: ["anti-inflammatory", "low-carb"],
 	},
 	{
@@ -702,6 +716,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "avoid",
 			gout: "moderation",
 		},
+		doshas: ["vata", "kapha"],
 		tags: ["low-carb", "fermented"],
 	},
 	{
@@ -774,6 +789,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["kapha"],
 		tags: ["added-sugar", "high-sodium"],
 	},
 	{
@@ -798,6 +814,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["kapha"],
 		tags: ["low-carb"],
 	},
 	{
@@ -822,6 +839,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "allowed",
 		},
+		doshas: ["vata"],
 		tags: ["fermented"],
 	},
 	{
@@ -846,6 +864,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "allowed",
 		},
+		doshas: ["vata"],
 		tags: ["low-carb", "fermented"],
 	},
 	{
@@ -870,6 +889,7 @@ export const CONDIMENTS: Food[] = [
 			gerdFriendly: "moderation",
 			gout: "moderation",
 		},
+		doshas: ["vata"],
 		tags: ["low-carb"],
 	},
 	{
@@ -896,4 +916,55 @@ export const CONDIMENTS: Food[] = [
 		},
 		tags: ["added-sugar", "high-sodium"],
 	},
+	{
+			id: "miso",
+			name: "Miso",
+			category: "condiments",
+			calories: 199,
+			protein: 12.0,
+			carbs: 26.0,
+			fat: 6.0,
+			fiber: 5.4,
+			compatibility: {
+				fodmap: "allowed",
+				ibs: "allowed",
+				mediterranean: "allowed",
+				portfolio: "allowed",
+				dash: "moderation",
+				keto: "moderation",
+				ayurvedic: "moderation",
+				lactoseFree: "allowed",
+				gutHealthy: "allowed",
+				gerdFriendly: "moderation",
+				gout: "moderation",
+			},
+			doshas: ["vata", "pitta", "kapha"],
+			tags: ["fermented", "probiotic", "plant-protein", "high-sodium"],
+		}
+,
+	{
+		id: "soy-sauce-plain",
+		name: "Soy Sauce",
+		category: "condiments",
+		calories: 53,
+		protein: 8.1,
+		carbs: 4.9,
+		fat: 0.1,
+		fiber: 0.8,
+		compatibility: {
+			fodmap: "allowed",
+			ibs: "allowed",
+			mediterranean: "moderation",
+			portfolio: "allowed",
+			dash: "moderation",
+			keto: "allowed",
+			ayurvedic: "moderation",
+			lactoseFree: "allowed",
+			gutHealthy: "moderation",
+			gerdFriendly: "moderation",
+			gout: "moderation",
+		},
+		doshas: ["vata", "pitta", "kapha"],
+		tags: ["fermented", "high-sodium"],
+	}
 ];

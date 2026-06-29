@@ -1,3 +1,5 @@
+import { DOSHA_LIST } from "@/data/ayurveda/doshas";
+import type { Dosha } from "@/types/ayurveda";
 import type {
 	CompatibilityKey,
 	DietLensKey,
@@ -70,7 +72,7 @@ export const DIET_LENSES: Lens[] = [
 		key: "ayurvedic",
 		label: "Ayurvedic",
 		description:
-			"Whole-food balance aligned with Ayurvedic principles — digestibility, freshness, and moderate processing.",
+			"Whole-food balance aligned with Ayurvedic principles — digestibility, freshness, and moderate processing. Dosha icons show which constitutions the food pacifies.",
 		accent: "255 142 64",
 		group: "diet",
 	},
@@ -196,9 +198,54 @@ export const TABLE_DIET_COLUMNS: { key: DietLensKey; label: string }[] = [
 	{ key: "dash", label: "DASH" },
 	{ key: "lactoseFree", label: "Lactose" },
 	{ key: "keto", label: "Keto" },
+	{ key: "ayurvedic", label: "Ayurvedic" },
 	{ key: "gutHealthy", label: "Gut" },
 	{ key: "gout", label: "Gout" },
 ];
+
+/** Explorer table: Ayurvedic expands into compat + one column per dosha. */
+export type ExplorerDietColumn =
+	| { type: "lens"; key: CompatibilityKey; label: string }
+	| { type: "dosha"; key: Dosha; label: string };
+
+export const EXPLORER_DIET_COLUMNS: ExplorerDietColumn[] =
+	TABLE_DIET_COLUMNS.flatMap((col): ExplorerDietColumn[] =>
+		col.key === "ayurvedic"
+			? [
+					{ type: "lens", key: "ayurvedic", label: "Ayurvedic" },
+					...DOSHA_LIST.map((d) => ({
+						type: "dosha" as const,
+						key: d.key,
+						label: d.label,
+					})),
+				]
+			: [{ type: "lens", key: col.key, label: col.label }],
+	);
+
+/** Meal-plan matrix: same Ayurvedic expansion across every lens. */
+export const ALL_LENSES_MATRIX_COLUMNS: ExplorerDietColumn[] =
+	ALL_LENSES.flatMap((lens): ExplorerDietColumn[] =>
+		lens.key === "ayurvedic"
+			? [
+					{
+						type: "lens",
+						key: "ayurvedic",
+						label: lens.label,
+					},
+					...DOSHA_LIST.map((d) => ({
+						type: "dosha" as const,
+						key: d.key,
+						label: d.label,
+					})),
+				]
+			: [
+					{
+						type: "lens",
+						key: lens.key,
+						label: lens.label,
+					},
+				],
+	);
 
 /** Health-benefit columns shown beside diet columns in explorer tables. */
 export const TABLE_HEALTH_COLUMNS: { key: HealthBenefitKey; label: string }[] =

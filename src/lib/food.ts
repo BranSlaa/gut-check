@@ -1,6 +1,7 @@
 import { ALL_LENSES } from "@/data/diets";
 import { inferHealthBenefit } from "@/lib/healthBenefits";
 import { COMPATIBILITY_KEYS, HEALTH_BENEFIT_KEYS } from "@/types/food";
+import type { Dosha } from "@/types/ayurveda";
 import type {
 	CompatibilityKey,
 	CompatibilityStatus,
@@ -46,6 +47,11 @@ export function getCompatibility(
 		return inferHealthBenefit(food, key);
 	}
 	return null;
+}
+
+/** Dosha(s) a food pacifies, from the food record. */
+export function getFoodDoshas(food: Food): Dosha[] {
+	return food.doshas ?? [];
 }
 
 /**

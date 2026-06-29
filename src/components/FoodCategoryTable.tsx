@@ -3,11 +3,16 @@
 import { useState } from "react";
 
 import CompatibilityIcon from "@/components/CompatibilityIcon";
+import DoshaIcon from "@/components/DoshaIcon";
+import ExplorerDietCell from "@/components/ExplorerDietCell";
 import Tooltip from "@/components/Tooltip";
 import type { FoodCategory } from "@/data/categories";
 import {
+	DOSHA_META,
+} from "@/data/ayurveda/doshas";
+import {
+	EXPLORER_DIET_COLUMNS,
 	LENS_BY_KEY,
-	TABLE_DIET_COLUMNS,
 	TABLE_HEALTH_COLUMNS,
 } from "@/data/diets";
 import { fmtNum, getCompatibility } from "@/lib/food";
@@ -120,7 +125,7 @@ export default function FoodCategoryTable({
 			{/* Table */}
 			<div className="relative overflow-x-auto">
 				<table
-					className="w-full min-w-[1100px] border-collapse text-sm"
+					className="w-full min-w-[1280px] border-collapse text-sm"
 					onMouseLeave={() => setHoveredCol(null)}
 				>
 					<thead>
@@ -147,16 +152,44 @@ export default function FoodCategoryTable({
 									</span>
 								</Th>
 							))}
-							{TABLE_DIET_COLUMNS.map((col) => (
-								<Th
-									key={col.key}
-									className={`text-center ${colHighlight(col.key)}`}
-									onMouseEnter={() => setHoveredCol(col.key)}
-									tooltip={LENS_BY_KEY[col.key].description}
-								>
-									{col.label}
-								</Th>
-							))}
+							{EXPLORER_DIET_COLUMNS.map((col) => {
+								const colKey =
+									col.type === "dosha"
+										? `dosha-${col.key}`
+										: col.key;
+								return (
+									<Th
+										key={colKey}
+										className={`text-center ${colHighlight(colKey)} ${
+											col.type === "dosha"
+												? "w-10 px-1"
+												: ""
+										}`}
+										onMouseEnter={() =>
+											setHoveredCol(colKey)
+										}
+										tooltip={
+											col.type === "lens"
+												? LENS_BY_KEY[col.key].description
+												: DOSHA_META[col.key].tooltip
+										}
+									>
+										{col.type === "dosha" ? (
+											<span className="inline-flex flex-col items-center gap-0.5">
+												<DoshaIcon
+													dosha={col.key}
+													size="sm"
+												/>
+												<span className="text-[9px] normal-case tracking-normal">
+													{col.label}
+												</span>
+											</span>
+										) : (
+											col.label
+										)}
+									</Th>
+								);
+							})}
 							<Th
 								className={`w-px px-0 ${colHighlight("_health_div")}`}
 								onMouseEnter={() => setHoveredCol("_health_div")}
@@ -258,25 +291,33 @@ export default function FoodCategoryTable({
 									})}
 
 									{/* Diet compatibility */}
-									{TABLE_DIET_COLUMNS.map((col) => (
-										<td
-											key={col.key}
-											className={`py-2.5 px-1 text-center transition-colors ${colHighlight(col.key)}`}
-											onMouseEnter={() =>
-												setHoveredCol(col.key)
-											}
-										>
-											<span className="inline-flex justify-center">
-												<CompatibilityIcon
-													status={getCompatibility(
-														food,
-														col.key,
-													)}
-													size="sm"
-												/>
-											</span>
-										</td>
-									))}
+									{EXPLORER_DIET_COLUMNS.map((col) => {
+										const colKey =
+											col.type === "dosha"
+												? `dosha-${col.key}`
+												: col.key;
+										return (
+											<td
+												key={colKey}
+												className={`py-2.5 text-center transition-colors ${colHighlight(colKey)} ${
+													col.type === "dosha"
+														? "w-10 px-1"
+														: "px-1"
+												}`}
+												onMouseEnter={() =>
+													setHoveredCol(colKey)
+												}
+											>
+												<span className="inline-flex justify-center">
+													<ExplorerDietCell
+														column={col}
+														food={food}
+														size="sm"
+													/>
+												</span>
+											</td>
+										);
+									})}
 									<td
 										className="w-px px-0"
 										aria-hidden

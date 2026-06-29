@@ -2,8 +2,14 @@
 
 import { useState } from "react";
 
+import DoshaIcon from "@/components/DoshaIcon";
+import ExplorerDietCell from "@/components/ExplorerDietCell";
 import CompatibilityIcon from "@/components/CompatibilityIcon";
-import { TABLE_DIET_COLUMNS, TABLE_HEALTH_COLUMNS } from "@/data/diets";
+import {
+	EXPLORER_DIET_COLUMNS,
+	TABLE_HEALTH_COLUMNS,
+} from "@/data/diets";
+import type { ExplorerDietColumn } from "@/data/diets";
 import { computeTotals, getCompatibility } from "@/lib/food";
 import type { CompatibilityKey, Food } from "@/types/food";
 
@@ -77,7 +83,7 @@ export default function AnalyticsPanel({ foods, usingSelection }: Props) {
 				{tab === "Diet Compatibility" && (
 					<CompatibilityMatrix
 						foods={foods}
-						columns={TABLE_DIET_COLUMNS}
+						columns={EXPLORER_DIET_COLUMNS}
 						title="Diet Compatibility Matrix"
 					/>
 				)}
@@ -177,7 +183,9 @@ function CompatibilityMatrix({
 	accent = "default",
 }: {
 	foods: Food[];
-	columns: { key: CompatibilityKey; label: string }[];
+	columns:
+		| ExplorerDietColumn[]
+		| { key: CompatibilityKey; label: string }[];
 	title: string;
 	accent?: "default" | "health";
 }) {
@@ -187,21 +195,47 @@ function CompatibilityMatrix({
 			? "term-label px-2 py-2 text-center text-[#9ad4ff]"
 			: "term-label px-2 py-2 text-center text-ink-faint";
 
+	const colKey = (
+		col:
+			| ExplorerDietColumn
+			| { key: CompatibilityKey; label: string },
+	) =>
+		"type" in col
+			? col.type === "dosha"
+				? `dosha-${col.key}`
+				: col.key
+			: col.key;
+
 	return (
 		<Panel title={title}>
 			{sample.length === 0 ? (
 				<EmptyNote />
 			) : (
 				<div className="overflow-x-auto">
-					<table className="w-full min-w-[520px] text-sm">
+					<table className="w-full min-w-[720px] text-sm">
 						<thead>
 							<tr>
 								<th className="term-label py-2 pr-3 text-left text-ink-faint">
 									Food
 								</th>
 								{columns.map((col) => (
-									<th key={col.key} className={headerClass}>
-										{col.label}
+									<th
+										key={colKey(col)}
+										className={headerClass}
+									>
+										{"type" in col && col.type === "dosha" ? (
+											<span className="inline-flex flex-col items-center gap-0.5">
+												<DoshaIcon
+													dosha={col.key}
+													size="sm"
+												/>
+												<span className="text-[9px] normal-case tracking-normal">
+													{col.label}
+												</span>
+											</span>
+										) : (
+											col.label
+										)}
 									</th>
 								))}
 							</tr>
@@ -217,17 +251,25 @@ function CompatibilityMatrix({
 									</td>
 									{columns.map((col) => (
 										<td
-											key={col.key}
+											key={colKey(col)}
 											className="px-2 py-2 text-center"
 										>
 											<span className="inline-flex justify-center">
-												<CompatibilityIcon
-													status={getCompatibility(
-														food,
-														col.key,
-													)}
-													size="sm"
-												/>
+												{"type" in col ? (
+													<ExplorerDietCell
+														column={col}
+														food={food}
+														size="sm"
+													/>
+												) : (
+													<CompatibilityIcon
+														status={getCompatibility(
+															food,
+															col.key,
+														)}
+														size="sm"
+													/>
+												)}
 											</span>
 										</td>
 									))}

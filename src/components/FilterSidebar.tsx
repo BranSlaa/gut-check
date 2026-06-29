@@ -1,15 +1,19 @@
 "use client";
 
 import CollapsibleSidebar from "@/components/CollapsibleSidebar";
+import Tooltip from "@/components/Tooltip";
 import { CATEGORIES } from "@/data/categories";
+import { HEALTH_BENEFIT_LENSES } from "@/data/diets";
 import { NUTRITION_KEYS, NUTRITION_RANGES, PROPERTY_OPTIONS } from "@/lib/food";
-import type { NutritionKey } from "@/types/food";
+import type { CompatibilityKey, NutritionKey } from "@/types/food";
 
 type NutritionBounds = { min: number; max: number };
 
 type Props = {
 	categories: Set<string>;
 	onToggleCategory: (id: string) => void;
+	healthBenefits: Set<CompatibilityKey>;
+	onToggleHealthBenefit: (key: CompatibilityKey) => void;
 	properties: Set<string>;
 	onToggleProperty: (id: string) => void;
 	/** Active min..max range per nutrient. */
@@ -24,6 +28,8 @@ type Props = {
 export default function FilterSidebar({
 	categories,
 	onToggleCategory,
+	healthBenefits,
+	onToggleHealthBenefit,
 	properties,
 	onToggleProperty,
 	nutritionRange,
@@ -70,11 +76,9 @@ export default function FilterSidebar({
 										onChange={() =>
 											onToggleProperty(prop.id)
 										}
-										className="peer sr-only"
+										className="sr-only"
 									/>
-									<span className="flex h-4 w-4 items-center justify-center rounded border border-panel-edge text-[10px] text-transparent transition-all peer-checked:border-neon-green peer-checked:bg-neon-green/20 peer-checked:text-neon-green peer-checked:shadow-[0_0_10px_-2px_var(--color-neon-green)]">
-										✓
-									</span>
+									<FilterCheckbox checked={checked} />
 									<span
 										className={`text-sm transition-colors ${
 											checked
@@ -111,11 +115,12 @@ export default function FilterSidebar({
 											onChange={() =>
 												onToggleCategory(cat.id)
 											}
-											className="peer sr-only"
+											className="sr-only"
 										/>
-										<span className="flex h-4 w-4 items-center justify-center rounded border border-panel-edge text-[10px] text-transparent transition-all peer-checked:border-accent peer-checked:bg-accent/20 peer-checked:text-accent peer-checked:shadow-[0_0_10px_-2px_var(--accent)]">
-											✓
-										</span>
+										<FilterCheckbox
+											checked={checked}
+											accent
+										/>
 										<span
 											className="h-2.5 w-2.5 rounded-full"
 											style={{
@@ -133,6 +138,60 @@ export default function FilterSidebar({
 											{cat.label}
 										</span>
 									</label>
+								</li>
+							);
+						})}
+					</ul>
+				</Section>
+
+				{/* Health benefits */}
+				<Section title="Health Benefits">
+					<ul className="flex flex-col gap-0.5">
+						{HEALTH_BENEFIT_LENSES.map((lens) => {
+							const checked = healthBenefits.has(lens.key);
+							return (
+								<li key={lens.key}>
+									<Tooltip content={lens.description}>
+										<label
+											className="group flex cursor-pointer items-center gap-2.5 rounded-md px-1.5 py-1.5 transition-colors hover:bg-white/3"
+											style={
+												{
+													"--accent": `rgb(${lens.accent})`,
+												} as React.CSSProperties
+											}
+										>
+											<input
+												type="checkbox"
+												checked={checked}
+												onChange={() =>
+													onToggleHealthBenefit(
+														lens.key,
+													)
+												}
+												className="sr-only"
+											/>
+											<FilterCheckbox
+												checked={checked}
+												accent
+											/>
+											<span
+												className="h-2.5 w-2.5 rounded-full"
+												style={{
+													background: `rgb(${lens.accent})`,
+													boxShadow: `0 0 8px rgb(${lens.accent} / 0.8)`,
+												}}
+											/>
+											<span
+												className={`text-sm transition-colors ${
+													checked
+														? "text-ink"
+														: "text-ink-dim group-hover:text-ink"
+												}`}
+											>
+												{lens.label}
+											</span>
+										</label>
+									</Tooltip>
 								</li>
 							);
 						})}
@@ -172,6 +231,44 @@ function Section({
 			<h3 className="term-label mb-2.5 text-ink-faint">{title}</h3>
 			{children}
 		</section>
+	);
+}
+
+/** Custom checkbox box — uses `checked` directly so per-item `--accent` vars work. */
+function FilterCheckbox({
+	checked,
+	accent = false,
+}: {
+	checked: boolean;
+	/** When true, reads `--accent` from the parent label's inline style. */
+	accent?: boolean;
+}) {
+	if (accent) {
+		return (
+			<span
+				className={[
+					"flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] transition-all",
+					checked
+						? "border-(--accent)] bg-[color-mix(in_srgb,var(--accent)_20%,transparent)] text-(--accent)] shadow-[0_0_10px_-2px_var(--accent)]"
+						: "border-panel-edge text-transparent",
+				].join(" ")}
+			>
+				✓
+			</span>
+		);
+	}
+
+	return (
+		<span
+			className={[
+				"flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] transition-all",
+				checked
+					? "border-neon-green bg-neon-green/20 text-neon-green shadow-[0_0_10px_-2px_var(--color-neon-green)]"
+					: "border-panel-edge text-transparent",
+			].join(" ")}
+		>
+			✓
+		</span>
 	);
 }
 
